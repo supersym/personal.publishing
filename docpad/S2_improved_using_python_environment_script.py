@@ -43,6 +43,12 @@ while a shebang line of "/usr/bin/python2" will automatically locate a Python
 2.x implementation will be chosen."
 /quote
 
+As to why we've chosen to use python version 2.7 and not 2.6 is due to the fact
+that node-gyp, the build tool, requires:
+
+    " Python (v2.7.3 recommended, v3.x.x is not supported)
+      see https://github.com/TooTallNate/node-gyp "
+
 This concludes the rationale as to explaining why we use the first line
 shebang the way it is now.
 """
