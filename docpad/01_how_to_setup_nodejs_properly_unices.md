@@ -23,8 +23,8 @@ those systems which use the [traditional Unix permissions][unix1] way of
 regulating read/write and other file-system permission attributes for
 file/inode IO.
 
-What problem are we trying to solve?
-------------------------------------
+What problems are we trying to solve?
+-------------------------------------
 
 Aka what justifies this write-up of information? What I am trying to somewhat
 coherently outline in this article are some common challenges you might
@@ -44,12 +44,29 @@ In short, this article tries to solve these problem areas:
 - improper permissions to install global node.js software (need sudo);
 - problems when trying to natively compile dependencies (node-gyp errors);
 
+How does this relate to DocPad (context)
+----------------------------------------
+
+The `docpad` command is run from the command line. Command line apps should be
+installed in the node.js global folder which, by default, requires root access
+to install a global npm package and thus may require the `docpad` command to
+further, after being installed with root, require root access to be executed.
+As mentioned above, the unnecessary use of the root account is strongly
+discouraged when not strictly required from a security perspective.
+
+Following this logic, if you want only the root user to be able and install
+node.js packages, there is no problem to solve and you may stop reading. This
+however does constitute a security risk because you will essentially be sharing
+the root permission with any global package executables that have the `setuid`
+sticky bit set (see the long part for a full disclosure of the reasoning behind
+it all).
+
 What are the symptoms of these problems?
 ----------------------------------------
 
 Some of the error messages you may encounter are:
 
-`npm ERR! `sh "-c" "node-gyp rebuild"` failed with 1`
+`npm ERR! sh "-c" "node-gyp rebuild" failed with 1`
 
 `npm ERR! Please try running this command again as root/Administrator`
 
